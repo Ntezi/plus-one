@@ -41,7 +41,11 @@ async function getNonEnglishWords(text) {
     }
 
     logger.info(`Non-English words: ${nonEnglishWords}`);
-    return nonEnglishWords
+
+    // Remove duplicates
+    return nonEnglishWords.filter(function(element, pos) {
+        return nonEnglishWords.indexOf(element) === pos;
+    })
 }
 
 module.exports = {

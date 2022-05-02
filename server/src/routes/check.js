@@ -6,15 +6,15 @@ const {StatusCodes, ReasonPhrases} = require('http-status-codes');
 const authenticate = require('../middlewares/authorization');
 const CheckService = require('../services/check_service');
 
-router.get('/', authenticate, async (req, res) => {
+router.post('/', authenticate, async (req, res) => {
     const {text} = req.body;
-    console.log("req.text", req.text)
+    console.log("req.text", text)
     try {
-        logger.info(`Search Endpoint: GET /check`);
+        logger.info(`Check Endpoint: POST /check`);
         const searchResults = await CheckService.getNonEnglishWords(text);
-        returnResponse(res, {data: searchResults}, StatusCodes.OK, ReasonPhrases.OK)
+        returnResponse(res, {data: searchResults}, StatusCodes.ACCEPTED, ReasonPhrases.ACCEPTED)
     } catch (error) {
-        logger.error(`Error in GET /check: ${error.toString()}`);
+        logger.error(`Error in POST /check: ${error.toString()}`);
         returnErrorResponse(res, error, StatusCodes.INTERNAL_SERVER_ERROR);
     }
 });
